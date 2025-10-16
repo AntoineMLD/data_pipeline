@@ -1,1 +1,1 @@
-# data_pipeline V1.0.0.
+# data_pipeline V1.0.0
