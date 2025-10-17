@@ -7,6 +7,6 @@ def read_pyarrow_parquet(file_path: str) -> pa.Table:
     return read_table(file_path)
 
 if __name__ == "__main__":
-    file_path = "data/yellow_tripdata_2025-05.parquet"
+    file_path = "src/data/data/yellow_tripdata_2025-05.parquet"
     table = read_pyarrow_parquet(file_path)
-    print(table)
+    print(len(table))

@@ -108,7 +108,7 @@ if __name__ == "__main__":
     downloader = NYCTaxiDataDownloader(
         base_url="https://d37ci6vzurychx.cloudfront.net/trip-data",
         year=2025,
-        data_dir="./data"
+        data_dir="src/data/data"
     )
     downloader.download_all_available()
 
