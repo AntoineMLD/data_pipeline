@@ -1,6 +1,7 @@
 # Created by https://www.toptal.com/developers/gitignore/api/windows,linux,node,python
 # Edit at https://www.toptal.com/developers/gitignore?templates=windows,linux,node,python
 
+src/data/*.parquet
 ### Linux ###
 *~
 
