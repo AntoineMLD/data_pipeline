@@ -351,4 +351,8 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
+*.duckdb
+*.duckdb.wal
+
+
 # End of https://www.toptal.com/developers/gitignore/api/windows,linux,node,python

@@ -1,0 +1,13 @@
+[project]
+name = "data-pipeline"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "duckdb==0.10.0",
+    "fastparquet==2024.2.0",
+    "pandas==2.2.0",
+    "pyarrow==15.0.0",
+    "requests==2.31.0",
+]
