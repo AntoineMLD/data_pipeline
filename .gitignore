@@ -1,8 +1,6 @@
 # Created by https://www.toptal.com/developers/gitignore/api/windows,linux,node,python
 # Edit at https://www.toptal.com/developers/gitignore?templates=windows,linux,node,python
 
-src/data/taxi_data.duckdb
-src/data/raw/*
 ### Linux ###
 *~
 
@@ -352,9 +350,5 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
-
-*.duckdb
-*.duckdb.wal
-
 
 # End of https://www.toptal.com/developers/gitignore/api/windows,linux,node,python
