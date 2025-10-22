@@ -1,0 +1,58 @@
+# version du format Compose ; 3.8 est largement supportée par Docker récent
+version: '3.8'
+
+services:
+  # ---- Base de données PostgreSQL ----
+  postgres:
+    image: postgres:16-alpine        # Image légère basée sur Alpine (rapide à pull)
+    container_name: nyc-taxi-postgres
+    environment:
+      # Les variables sont lues depuis l'environnement hôte ou .env
+      # Valeur par défaut après ':-' si la variable n'est pas présente.
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      POSTGRES_DB: ${POSTGRES_DB:-taxi_data}
+    ports:
+      # Expose le port DB sur l'hôte (utile pour se connecter depuis un client local)
+      - "5432:5432"
+    volumes:
+      # Volume nommé → données persistentes même si le conteneur est recréé
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      # Vérifie que Postgres est prêt à accepter des connexions
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s   # fréquence des checks
+      timeout: 5s     # délai max par check
+      retries: 5      # marquer "healthy" après 5 checks OK
+
+  # ---- Application (ton code Python) ----
+  app:
+    build:
+      context: .                 # Construit l'image à partir du Dockerfile de la racine
+      dockerfile: Dockerfile
+    container_name: nyc-taxi-app
+    environment:
+      # L'app reçoit les infos de connexion DB via variables d'env
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      POSTGRES_DB: ${POSTGRES_DB:-taxi_data}
+      POSTGRES_HOST: postgres    # Nom du service postgres (réseau Docker)
+      POSTGRES_PORT: 5432
+      APP_ENV: ${APP_ENV:-development}
+    ports:
+      - "8000:8000"              # Expose l’API web (par ex. FastAPI) sur l’hôte
+    volumes:
+      # Montage en lecture/écriture pour itérer rapidement en dev (code & données)
+      - ./src/data:/app/src/data
+      - ./src:/app/src           # Code source monté (hot-reload si supporté)
+    depends_on:
+      postgres:
+        # L'app n'est lancée qu'une fois Postgres "healthy" selon le healthcheck ci-dessus
+        condition: service_healthy
+    command: uvicorn src.main:app --host 0.0.0.0 --port 8000 --reload
+    # ^ lance un serveur ASGI (FastAPI supposée).
+    #   --reload : utile en dev (rechargement à chaud). Évite en prod.
+
+# Déclaration du volume persistant pour Postgres
+volumes:
+  postgres_data:
