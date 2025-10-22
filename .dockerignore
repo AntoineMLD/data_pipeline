@@ -1,0 +1,42 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Git
+.git/
+.gitignore
+
+# Documentation
+*.md
+!CONFIGURATION.md
+
+# Données (DuckDB uniquement, pas les parquets)
+src/data/*.duckdb
+src/data/*.db
+
+# Node
+node_modules/
+package-lock.json
+
+# Divers
+.DS_Store
+*.log
+uv.lock
+
