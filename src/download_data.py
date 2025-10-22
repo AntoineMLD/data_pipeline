@@ -179,14 +179,14 @@ class NYCTaxiDataDownloader:
 
         # Résumé exploitable (observabilité): permet de décider quoi rejouer.
         print("\n[summary]")
-        print(f"  ✓ Nouveaux téléchargements : {successes}")
-        print(f"  ≡ Déjà présents           : {skips}")
-        print(f"  ⃠ Manquants (non publiés) : {len(missing)}")
+        print(f"  Nouveaux téléchargements : {successes}")
+        print(f"  Déjà présents            : {skips}")
+        print(f"  Manquants (non publiés)  : {len(missing)}")
         if missing:
-            print(f"    → Mois manquants        : {', '.join(f'{x:02d}' for x in missing)}")
-        print(f"  ✗ Échecs réseau           : {len(failures)}")
+            print(f"    Mois manquants         : {', '.join(f'{x:02d}' for x in missing)}")
+        print(f"  Échecs réseau            : {len(failures)}")
         if failures:
-            print(f"    → Mois en échec         : {', '.join(f'{x:02d}' for x in failures)}")
+            print(f"    Mois en échec          : {', '.join(f'{x:02d}' for x in failures)}")
 
         return results
 
@@ -233,7 +233,7 @@ class NYCTaxiDataDownloader:
                     if self.SHOW_PROGRESS:
                         sys.stderr.write("\n")
 
-                    # Sanity check: refuser d’“OK” un fichier vide.
+                    # Sanity check: refuser le fichier vide.
                     if dest_tmp.stat().st_size > 0:
                         return True
                     else:

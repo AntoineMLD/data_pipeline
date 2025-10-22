@@ -25,11 +25,11 @@ dist/
 
 # Documentation
 *.md
+!CONFIGURATION.md
 
-# Données
+# Données (DuckDB uniquement, pas les parquets)
 src/data/*.duckdb
 src/data/*.db
-src/data/raw/*.parquet
 
 # Node
 node_modules/
