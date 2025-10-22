@@ -1,6 +1,8 @@
 # Created by https://www.toptal.com/developers/gitignore/api/windows,linux,node,python
 # Edit at https://www.toptal.com/developers/gitignore?templates=windows,linux,node,python
 
+src/data/taxi_data.duckdb
+src/data/raw/*
 ### Linux ###
 *~
 
@@ -97,6 +99,9 @@ web_modules/
 .env.test.local
 .env.production.local
 .env.local
+
+# DLT secrets
+.dlt/secrets.toml
 
 # parcel-bundler cache (https://parceljs.org/)
 .cache
@@ -350,5 +355,9 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+
+*.duckdb
+*.duckdb.wal
+
 
 # End of https://www.toptal.com/developers/gitignore/api/windows,linux,node,python
