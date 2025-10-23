@@ -19,7 +19,7 @@ services:
   mongodb:
     image: mongo:7
     container_name: nyc-taxi-mongodb
-    command: ["mongod", "--quiet"]
+    command: ["mongod", "--quiet", "--logpath", "/dev/null", "--logappend"]
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${MONGO_USER:-admin}
       MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD:-admin}
