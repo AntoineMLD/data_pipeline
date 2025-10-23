@@ -12,6 +12,16 @@ POSTGRES_PORT=5433
 POSTGRES_DB=taxi_data
 POSTGRES_USER=pipeline_user
 POSTGRES_PASSWORD=pipeline_pass
+
+# MongoDB
+MONGO_USER=admin
+MONGO_PASSWORD=admin
+MONGO_DB=nyc_taxi_clean
+MONGO_HOST=mongodb
+MONGO_PORT=27017
+
+# Nettoyage en streaming (taille des chunks pour le DataCleaner)
+CLEANER_CHUNK_SIZE=100000
 ```
 
 ## Notes

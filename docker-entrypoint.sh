@@ -29,6 +29,49 @@ except Exception as e:
     print('L\'API démarrera quand même', flush=True)
 "
 
+# Lancer le nettoyage des données vers MongoDB en streaming
+echo "Nettoyage des données (streaming) et sauvegarde MongoDB..."
+python -u - <<'PY'
+import os, sys, time
+sys.path.insert(0, '/app')
+sys.path.insert(0, '/app/src')
+
+CHUNK = int(os.getenv('CLEANER_CHUNK_SIZE', '100000'))
+
+try:
+    from src.data_cleaner import DataCleaner
+
+    t0 = time.perf_counter()
+    print(f"[CLEANER] Initialisation (chunksize={CHUNK})...", flush=True)
+    cleaner = DataCleaner()
+
+    try:
+        t_stream = time.perf_counter()
+        print("[CLEANER] Nettoyage en flux et insertion dans MongoDB (remplacement total)...", flush=True)
+        totals = cleaner.stream_clean_to_mongodb(chunksize=CHUNK)
+        t_end = time.perf_counter()
+
+        print(
+            "[CLEANER] Récap:",
+            {
+                'chunks': totals.get('chunks', 0),
+                'lignes_chargees': totals.get('lignes_chargees', 0),
+                'lignes_conservees': totals.get('lignes_conservees', 0),
+                'documents_inserts': totals.get('documents_inserts', 0),
+                'duree_s': round(t_end - t0, 3),
+            },
+            flush=True,
+        )
+
+    finally:
+        cleaner.close()
+        print("[CLEANER] Connexions fermées.", flush=True)
+
+except Exception as e:
+    print(f"[CLEANER][ERREUR] {e}", flush=True)
+    print("[CLEANER] On continue le démarrage de l'API.", flush=True)
+PY
+
 # Lancer l'API
 echo "Démarrage de l'API FastAPI..."
 cd /app/src/fastapi-crud
